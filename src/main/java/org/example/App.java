@@ -1,28 +1,32 @@
 package org.example;
 
-import org.example.withoutstrategy.NotificationType;
-import org.example.withoutstrategy.Order;
-import org.example.withoutstrategy.OrderService;
-import org.example.withoutstrategy.config.AppConfig;
-import org.example.withoutstrategy.service.EmailService;
-import org.example.withoutstrategy.service.SmsService;
+import org.example.core.PaymentContext;
+import org.example.strategy.PaymentStrategy;
+import org.example.strategy.factory.PaymentStrategyFactory;
+
 
 public class App 
 {
+    /**
+     * Create a new PaymentContext, which holds the selected PaymentStrategy and
+     * provides the pay method to initiate payment.
+     */
     public static void main( String[] args )
     {
-        // Without Strategy Pattern
+        PaymentContext context = new PaymentContext();
 
-        AppConfig appConfig = new AppConfig("http://shipping-service.com", NotificationType.EMAIL);
-        EmailService emailService = new EmailService();
-        SmsService smsService = new SmsService();
+        // Use Factory to get the appropriate Strategy
+        PaymentStrategy strategy1 = PaymentStrategyFactory.getPaymentStrategy("CREDITCARD");
+        context.setPaymentStrategy(strategy1);
+        context.pay(100);
 
-        // Create OrderService instance
-        OrderService orderService = new OrderService(appConfig, emailService, smsService);
-        Order order = new Order(100, "abc@gmail.com", "shipped",java.time.Instant.now().toString());
+        PaymentStrategy strategy2 = PaymentStrategyFactory.getPaymentStrategy("PAYPAL");
+        context.setPaymentStrategy(strategy2);
+        context.pay(200);
 
-        // Ship the order and notify
-        orderService.shipOrder(order);
+        PaymentStrategy strategy3 = PaymentStrategyFactory.getPaymentStrategy("BITCOIN");
+        context.setPaymentStrategy(strategy3);
+        context.pay(300);
     }
 
 }
