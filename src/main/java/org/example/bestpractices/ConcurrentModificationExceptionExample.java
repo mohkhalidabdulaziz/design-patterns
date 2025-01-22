@@ -11,13 +11,7 @@ public class ConcurrentModificationExceptionExample {
                 Arrays.asList("a", "b", "c", "d")
         );
 
-        Iterator<String> iterator = words.iterator();
-        while (iterator.hasNext()) {
-            String word = iterator.next();
-            if (word.equals("a")) {
-               iterator.remove();
-            }
-        }
+        words.removeIf(word -> word.equals("a"));
     }
 
     public static void main(String[] args) {
