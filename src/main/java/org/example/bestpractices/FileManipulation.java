@@ -9,15 +9,14 @@ public class FileManipulation {
 
     public void readFile(String fileName) throws IOException {
 
-        FileReader fileReader = new FileReader(fileName);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
 
-        String line = null;
-
-        while ((line = bufferedReader.readLine()) != null) {
-            System.out.println(line);
-
+            }
         }
+
 
     }
 }
