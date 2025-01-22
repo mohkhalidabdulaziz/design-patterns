@@ -2,6 +2,7 @@ package org.example.bestpractices;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class ConcurrentModificationExceptionExample {
 
@@ -9,9 +10,12 @@ public class ConcurrentModificationExceptionExample {
         ArrayList<String> words = new ArrayList<>(
                 Arrays.asList("a", "b", "c", "d")
         );
-        for (String word: words) {
+
+        Iterator<String> iterator = words.iterator();
+        while (iterator.hasNext()) {
+            String word = iterator.next();
             if (word.equals("a")) {
-                words.remove(word);
+               iterator.remove();
             }
         }
     }
