@@ -7,13 +7,13 @@ public class StringManipulation {
 
     public String buildString(List<String> words) {
 
-        String result = "";
+        StringBuilder stringBuilder = new StringBuilder();
 
         for (String word: words) {
-            result+=word;
+            stringBuilder.append(word);
 
         }
-        return result;
+        return stringBuilder.toString();
     }
 
     public static void main(String[] args) {
